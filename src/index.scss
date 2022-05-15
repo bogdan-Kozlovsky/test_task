@@ -1,0 +1,36 @@
+@import 'assets/normalize/noramlize.css';
+
+//variables color
+$primary-color: rgba(244 224 65);
+$secondary-color: rgba(0 189 211);
+$background-color: rgba(248 248 248);
+$button-color: rgba(0, 0, 0, 0.87);
+
+
+body {
+  background: $background-color;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+
+/*//global style class*/
+
+  .container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+
+.btn {
+  margin: 0 5px;
+  border: none;
+  border-radius: 80px;
+  background-color: $primary-color;
+  padding: 4px 29px;
+  color: $button-color;
+}
+

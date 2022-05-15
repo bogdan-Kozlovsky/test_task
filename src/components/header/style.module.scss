@@ -1,0 +1,18 @@
+@import "src/index.scss";
+
+.wrapper{
+  padding: 17px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wrapperNavigate{
+
+}
+
+@media (max-width: 400px){
+  .logo{
+    width: 80px;
+  }
+}
