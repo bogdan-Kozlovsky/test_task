@@ -1,0 +1,31 @@
+@import 'src/index';
+
+
+.user {
+
+  &__item {
+    text-align: center;
+    padding: 20px;
+    background: $while;
+    flex: 1 1 370px;
+    //width: 33.333%;
+    //width: calc(100%/3);
+    border-radius: 10px;
+    min-height: 254px;
+    height: 100%;
+    margin: 15px;
+  }
+
+  &__avatar {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 20px;
+  }
+
+  &__name{
+    margin-bottom: 20px;
+  }
+}
