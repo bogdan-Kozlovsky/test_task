@@ -1,14 +1,16 @@
 export type initialStateType = {
     users: UserType[],
-    success:boolean,
-    page:number,
-    total_pages:number,
-    total_users:number,
-    count:number,
-    links:{
-        next_url:string,
-        prev_url:null
+    success: boolean,
+    total_pages: number,
+    total_users: number,
+    links: {
+        next_url: string,
+        prev_url: null
     },
+    params: {
+        page: number,
+        count: number,
+    }
 }
 
 export type UserType = {

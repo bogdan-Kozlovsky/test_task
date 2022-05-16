@@ -10,9 +10,16 @@
   }
 
   &__wrapper{
+    min-height: 537px;
+    position: relative;
     margin: 0 -15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 50px;
+  }
+
+  &__wrapper_link{
+    text-align: center;
   }
 }

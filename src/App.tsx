@@ -14,6 +14,8 @@ export const App = () => (
                 <Route path={PATH.BANNER} element={<Banner/>} />
                 <Route path={PATH.USERS} element={<Users/>} />
                 <Route path={'/*'} element={<div>error</div>} />
+                {/* <Route path={PATH.ERROR_404} element={<Error404 />} /> */}
+                {/* <Route path="*" element={<Navigate to="404" />} /> */}
             </Routes>
             
         </div>

@@ -2,8 +2,10 @@ import {instance} from "api/config";
 import {UserType} from "store/reducer/user/types";
 
 export const userApi = {
-    getUser() {
-        return instance.get<UserType>(`users`)
+    getUser(page: number, count: number) {
+        // return instance.get<UserType>(`users`)
+        // return instance.get<UserType>(`users?page=${page}&count=6`)
+        return instance.get<UserType>(`users`, {params: {page, count}})
     }
 }
 
