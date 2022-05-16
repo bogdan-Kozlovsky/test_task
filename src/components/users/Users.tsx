@@ -29,7 +29,7 @@ export const Users = () => {
     };
     return (
         <div className="container">
-            <h1 className={s.users__title}>Working with GET request</h1>
+            <h1 className='title'>Working with GET request</h1>
             <div className={s.users__wrapper}>
                 {users.map(user => (
                         <User key={user.id} phone={user.phone} email={fixLengthText(user.email)}

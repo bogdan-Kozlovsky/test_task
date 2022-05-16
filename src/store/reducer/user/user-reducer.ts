@@ -3,10 +3,10 @@ import {Dispatch} from "redux";
 import {userApi} from "api/user";
 import {setInitialized} from "store/reducer/app/app-reducer";
 import {initialStateType, UserType} from "store/reducer/user/types";
+import {GlobalActionType} from "utils/globalTypeAction";
 
 const initialState: initialStateType = {
     users: [],
-
     success: false,
     total_pages: 0,
     total_users: 0,
@@ -39,7 +39,7 @@ export const userReducer = (state: initialStateType = initialState, action: Glob
     }
 }
 
-const setUsers = (user: UserType) => ({
+export const setUsers = (user: UserType) => ({
     type: 'USER/SET_USERS', payload: {user}
 } as const)
 
@@ -47,10 +47,6 @@ export const setCurrentPage = (value: number) => ({
     type: 'USER/SET_CURRENT_PAGE',
     value,
 } as const);
-
-export type GlobalActionType =
-    | ReturnType<typeof setUsers>
-    | ReturnType<typeof setCurrentPage>
 
 export const getUsersTC = (page: number, count: number) => async (dispatch: Dispatch) => {
     try {

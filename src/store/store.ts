@@ -4,11 +4,14 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import thunk, {ThunkDispatch} from "redux-thunk";
 
 import {appReducer} from "store/reducer/app/app-reducer";
-import {GlobalActionType, userReducer} from "store/reducer/user/user-reducer";
+import {formReducer} from "store/reducer/form/form-reducer";
+import {userReducer} from "store/reducer/user/user-reducer";
+import {GlobalActionType} from "utils/globalTypeAction";
 
 const reducers = combineReducers({
     user: userReducer,
     app: appReducer,
+    form: formReducer,
 })
 
 export const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

@@ -7,3 +7,6 @@ export const selectTotalPages = (state: AppRootType) => state.user.total_pages
 
 // app
 export const selectInitialized = (state: AppRootType) => state.app.initialized
+
+// form
+export const selectPosition = (state:AppRootType) => state.form.positions

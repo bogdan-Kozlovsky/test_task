@@ -1,14 +1,6 @@
 @import "src/index.scss";
 
 .users {
-  &__title {
-    margin-bottom: 50px;
-    font-size: 40px;
-    line-height: 40px;
-    color: $black-color;
-    text-align: center;
-  }
-
   &__wrapper{
     min-height: 537px;
     position: relative;

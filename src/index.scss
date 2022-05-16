@@ -5,6 +5,7 @@ $primary-color: rgba(244 224 65);
 $secondary-color: rgba(0 189 211);
 $background-color: #E5E5E5;
 $while: #ffffff;
+$color-form:#7E7E7E;
 $black-color: rgba(0, 0, 0, 0.87);
 
 
@@ -14,6 +15,7 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 26px;
+  color: $black-color;
 }
 
 
@@ -34,6 +36,16 @@ body {
   padding: 4px 29px;
   color: $black-color;
 }
+
+.title {
+  margin-bottom: 50px;
+  font-size: 40px;
+  line-height: 40px;
+  color: $black-color;
+  text-align: center;
+}
+
+
 
 //animate preloader
 .preloader {
