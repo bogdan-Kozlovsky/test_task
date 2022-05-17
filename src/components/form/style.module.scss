@@ -2,12 +2,13 @@
 
 .form {
 
-  &__box{
+  &__box {
     min-height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   &__wrapper {
     max-width: 380px;
     margin: 0 auto;
@@ -33,17 +34,14 @@
     border: 1px solid #D0CFCF;
     border-radius: 4px;
 
-    &:not(:last-child) {
-      margin-bottom: 50px;
-    }
-
-    &:last-child {
-      margin-bottom: 4px;
+    &::placeholder {
+      background: $background-color;
     }
   }
 
   &__label_span {
-    margin-left: 10px;
+    display: block;
+    margin: 4px 0 0 10px;
   }
 
   //select
@@ -83,6 +81,51 @@
     border: 1px solid #D0CFCF;
     margin-left: -36px;
   }
+
+  // btn form disabled
+  &__btn {
+    margin: 0 5px;
+    border: none;
+    border-radius: 80px;
+    background-color: $primary-color;
+    padding: 4px 29px;
+    color: $black-color;
+
+    &:disabled {
+      cursor: auto;
+      background: #B4B4B4;
+      color: $while;
+    }
+  }
+
+  // style validate form input and label
+  &__labelStyle_error {
+    display: block;
+    position: relative;
+
+    &:not(:last-child) {
+      margin-bottom: 50px;
+    }
+
+    &:last-child {
+      margin-bottom: 25px;
+    }
+  }
+
+  // error
+  &__error {
+    font-size: 12px;
+    line-height: 14px;
+    position: absolute;
+    left: 9px;
+    bottom: -17px;
+    color: $color-error;
+  }
+
+  // error input style
+  &__input_error{
+    border: 1px solid red;
+  }
 }
 
 .form__radio:checked + .form__check_style::before {
@@ -97,7 +140,7 @@
   background: #00BDD3;
 }
 
-.form__radio:checked + .form__check_style{
+.form__radio:checked + .form__check_style {
   border: 1px solid #00BDD3;
 }
 

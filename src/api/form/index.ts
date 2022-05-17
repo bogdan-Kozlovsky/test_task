@@ -6,8 +6,9 @@ export const formApi = {
     getPosition() {
         return instance.get<PositionType>(`positions`,)
     },
-    addUser(data: AddUserType) {
-        return instance.post(`/users`, data)
+    addUser(data: AddUserType, token: string) {
+        // return instance.post(`/users`, data, {headers: {Token: token}})
+        return instance.post(`/users/${token}`, data)
     }
 }
 

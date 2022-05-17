@@ -1,10 +1,11 @@
 import {Dispatch} from "redux";
 
 import {formApi} from "api/form";
+import {AddUserType} from "api/form/types";
 import {tokenApi} from "api/token";
 import {setInitialized} from "store/reducer/app/app-reducer";
 import {initialStateType, PositionType} from "store/reducer/form/types";
-import {AddUserType} from "api/form/types";
+import {AppRootType} from "store/store";
 
 const initialState: initialStateType = {
     success: false,
@@ -55,17 +56,18 @@ export const getPositionTC = () => async (dispatch: Dispatch) => {
 export const getToken = () => async (dispatch: Dispatch) => {
     try {
         const respons = await tokenApi.getToken()
-        dispatch(setToken(respons.data))
+        dispatch(setToken(respons.data.token))
     } catch (e) {
         // eslint-disable-next-line no-alert
         alert(e)
     }
 }
 
-export const addUser = (data: AddUserType) => async (dispatch: Dispatch) => {
+export const addUser = (data: AddUserType) => async (dispatch: Dispatch, getState: () => AppRootType) => {
+    const {token} = getState().form
     try {
         dispatch(setInitialized(true))
-        await formApi.addUser(data)
+        await formApi.addUser(data, token)
     } catch (e) {
         // eslint-disable-next-line no-alert
         alert(e)

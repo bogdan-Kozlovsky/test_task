@@ -1,15 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {useFormik} from "formik";
 
 import preloader from "assets/icons/preloader.svg";
 import {useAppSelector} from "common/hook/useAppSelectorHook";
-import {SuperInput} from "common/superInput/SuperInput";
-import {SuperRadio} from "common/superRadio/SuperRadio";
 import s from 'components/form/style.module.scss'
 import {addUser, getPositionTC, getToken} from "store/reducer/form/form-reducer";
 import {selectInitialized, selectPosition} from "store/selectors/selectors";
 import {useTypedDispatch} from "store/store";
+import {checkValidation} from "utils/checkValidation";
 
 export const Form = () => {
     const dispatch = useTypedDispatch();
@@ -17,7 +16,11 @@ export const Form = () => {
     const initialized = useAppSelector(selectInitialized)
     const positionDate = useAppSelector(selectPosition)
 
+    // local state
+    const [disable, setDisable] = useState<boolean>(true);
+
     // formik
+    // @ts-ignore
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -26,15 +29,19 @@ export const Form = () => {
             position_id: 1,
             photo: '',
         },
-        // validate: values => checkValidation(formik, values, setDisable),
+        validate: values => checkValidation(formik, values, setDisable),
         onSubmit: data => {
             dispatch(addUser(data));
-            // setDisable(true);
-            console.log(data)
-            // formik.resetForm();
+            setDisable(false);
+            formik.resetForm();
         },
     });
-    // formik
+
+    const isErrorChecking = (value: string) => formik.touched[value] && formik.errors[value]
+
+    const validationCheckHandler = (value: string) => formik.touched[value] && formik.errors[value]
+        ? (<div className={s.form__error}>{formik.errors.email}</div>)
+        : null
 
     useEffect(() => {
         dispatch(getPositionTC())
@@ -45,34 +52,70 @@ export const Form = () => {
         <div className={`container ${s.form__box}`}>
             <h2 className='title'>Working with POST request</h2>
             <form className={s.form__wrapper} onSubmit={formik.handleSubmit}>
-                <SuperInput className={s.form__input} placeholder="Your name" {...formik.getFieldProps('name')}/>
-                <SuperInput className={s.form__input} placeholder="Email" {...formik.getFieldProps('email')}/>
-                <label className={s.form__label}>
-                    <SuperInput className={s.form__input} placeholder="Phone" {...formik.getFieldProps('position_id')}/>
-                    +38 (XXX) XXX - XX - XX
-                    {/* <span className={s.form__label_span}>+38 (XXX) XXX - XX - XX</span> */}
-                </label>
+                <div>
+
+                    <label className={s.form__labelStyle_error}>
+                        <input
+                            className={`${s.form__input} ${isErrorChecking('name') && s.form__input_error} `}
+                            placeholder="Your name"
+                            {...formik.getFieldProps('name')}
+                        />
+                        {/* // validate name */}
+                        {validationCheckHandler('name')}
+
+                    </label>
+
+                    <label className={s.form__labelStyle_error}>
+                        <input
+                            className={`${s.form__input} ${formik.touched.email && formik.errors.email && s.form__input_error} `}
+                            placeholder="Email"
+                            {...formik.getFieldProps('email')}
+                        />
+                        {/* // validate email */}
+                        {validationCheckHandler('email')}
+                    </label>
+
+                    <label className={`${s.form__label} ${s.form__labelStyle_error}`}>
+                        <input
+                            className={`${s.form__input} ${formik.touched.photo && formik.errors.photo && s.form__input_error} `}
+                            placeholder="Phone"
+                            {...formik.getFieldProps('phone')}
+                        />
+                        {/* // validate phone */}
+                        <span className={s.form__label_span}>+38 (XXX) XXX - XX - XX</span>
+                        {validationCheckHandler('phone')}
+                    </label>
+                </div>
+
                 <div className={s.form__select_wrap}>
+                    {/* // loader active */}
                     {initialized && <img className='preloader' src={preloader} alt="preloader"/>}
 
                     <p className={s.form__select_text}>Select your position</p>
 
                     {positionDate.map(e => (
                         <label key={e.id} className={s.form__select_item}>
-                            {/* <SuperRadio className={s.form__radio} value={e.id} name="radio"/> */}
-                            <SuperRadio className={s.form__radio} value={e.id} name="radio"/>
+                            <input
+                                required
+                                type="radio"
+                                className={s.form__radio}
+                                value={e.id}
+                                name="radio"
+                            />
                             <span className={s.form__check_style}/>
                             {e.name}
+                            {validationCheckHandler('position_id')}
                         </label>
                     ))}
                 </div>
                 <label className={s.label}>
                     {/* <input className="choose" type="file" name="avatar" {...formik.getFieldProps('photo')}/> */}
-                    <input className="choose" type="file" name="avatar"  {...formik.getFieldProps('photo')}/>
+                    <input required className="choose" type="file"   {...formik.getFieldProps('photo')}/>
                     <span className={s.button}>Upload</span>
                     <span className={s.labelTwo}>Upload your photo</span>
+                    {validationCheckHandler('photo')}
                 </label>
-                <button type='button'>Sign up</button>
+                <button className={s.form__btn} disabled={disable} type='submit'>Sign up</button>
             </form>
         </div>
     );

@@ -5,7 +5,8 @@ $primary-color: rgba(244 224 65);
 $secondary-color: rgba(0 189 211);
 $background-color: #E5E5E5;
 $while: #ffffff;
-$color-form:#7E7E7E;
+$color-form: #7E7E7E;
+$color-error: #CB3D40;;
 $black-color: rgba(0, 0, 0, 0.87);
 
 
@@ -44,7 +45,6 @@ body {
   color: $black-color;
   text-align: center;
 }
-
 
 
 //animate preloader
