@@ -3,10 +3,7 @@
 .form {
 
   &__box {
-    min-height: calc(100vh - 100px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding-top: 40px;
   }
 
   &__wrapper {
@@ -121,11 +118,6 @@
     bottom: -17px;
     color: $color-error;
   }
-
-  // error input style
-  &__input_error{
-    border: 1px solid red;
-  }
 }
 
 .form__radio:checked + .form__check_style::before {
@@ -154,6 +146,11 @@
   position: relative;
   width: 100%;
   margin-bottom: 50px;
+}
+
+// error input style
+.form__input_error {
+  border: 1px solid red;
 }
 
 .label > [type="file"] {

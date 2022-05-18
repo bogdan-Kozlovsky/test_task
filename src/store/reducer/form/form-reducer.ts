@@ -6,6 +6,7 @@ import {tokenApi} from "api/token";
 import {setInitialized} from "store/reducer/app/app-reducer";
 import {initialStateType, PositionType} from "store/reducer/form/types";
 import {AppRootType} from "store/store";
+import {processingErrorHandler} from "utils/processingError";
 
 const initialState: initialStateType = {
     success: false,
@@ -46,8 +47,8 @@ export const getPositionTC = () => async (dispatch: Dispatch) => {
         const respons = await formApi.getPosition()
         dispatch(setPosition(respons.data))
     } catch (e) {
-        // eslint-disable-next-line no-alert
-        alert(e)
+        const {message}: any = e
+        processingErrorHandler(message, dispatch);
     } finally {
         dispatch(setInitialized(false))
     }
@@ -58,8 +59,8 @@ export const getToken = () => async (dispatch: Dispatch) => {
         const respons = await tokenApi.getToken()
         dispatch(setToken(respons.data.token))
     } catch (e) {
-        // eslint-disable-next-line no-alert
-        alert(e)
+        const {message}: any = e
+        processingErrorHandler(message, dispatch);
     }
 }
 
@@ -69,8 +70,8 @@ export const addUser = (data: AddUserType) => async (dispatch: Dispatch, getStat
         dispatch(setInitialized(true))
         await formApi.addUser(data, token)
     } catch (e) {
-        // eslint-disable-next-line no-alert
-        alert(e)
+        const {message}: any = e
+        processingErrorHandler(message, dispatch);
     } finally {
         dispatch(setInitialized(false))
     }

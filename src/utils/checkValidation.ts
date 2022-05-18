@@ -13,7 +13,7 @@ export const checkValidation = (
     setDisable: (disable: boolean) => void,
 ) => {
     const errors: FormikErrorType = {};
-    
+
     // email
     if (!values.email) {
         errors.email = 'Required';

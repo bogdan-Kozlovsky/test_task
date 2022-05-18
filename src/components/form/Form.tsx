@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 
 import {useFormik} from "formik";
 
 import preloader from "assets/icons/preloader.svg";
 import {useAppSelector} from "common/hook/useAppSelectorHook";
+import {ModalError} from "common/modalError/ModalError";
 import s from 'components/form/style.module.scss'
 import {addUser, getPositionTC, getToken} from "store/reducer/form/form-reducer";
-import {selectInitialized, selectPosition} from "store/selectors/selectors";
+import {selectErrorValue, selectInitialized, selectPosition} from "store/selectors/selectors";
 import {useTypedDispatch} from "store/store";
 import {checkValidation} from "utils/checkValidation";
 
@@ -14,6 +15,7 @@ export const Form = () => {
     const dispatch = useTypedDispatch();
 
     const initialized = useAppSelector(selectInitialized)
+    const error = useAppSelector(selectErrorValue)
     const positionDate = useAppSelector(selectPosition)
 
     // local state
@@ -31,7 +33,7 @@ export const Form = () => {
         },
         validate: values => checkValidation(formik, values, setDisable),
         onSubmit: data => {
-            dispatch(addUser(data));
+            dispatch(addUser({...data, position_id: +data.position_id}));
             setDisable(false);
             formik.resetForm();
         },
@@ -43,6 +45,11 @@ export const Form = () => {
         ? (<div className={s.form__error}>{formik.errors.email}</div>)
         : null
 
+    // onChange input radio
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        formik.handleChange(e)
+    }
+
     useEffect(() => {
         dispatch(getPositionTC())
         dispatch(getToken())
@@ -50,6 +57,7 @@ export const Form = () => {
 
     return (
         <div className={`container ${s.form__box}`}>
+            {error && <ModalError/>}
             <h2 className='title'>Working with POST request</h2>
             <form className={s.form__wrapper} onSubmit={formik.handleSubmit}>
                 <div>
@@ -62,7 +70,6 @@ export const Form = () => {
                         />
                         {/* // validate name */}
                         {validationCheckHandler('name')}
-
                     </label>
 
                     <label className={s.form__labelStyle_error}>
@@ -96,19 +103,23 @@ export const Form = () => {
                     {positionDate.map(e => (
                         <label key={e.id} className={s.form__select_item}>
                             <input
+                                defaultChecked={formik.values.position_id === e.id}
+                                onChange={onChangeHandler}
                                 required
                                 type="radio"
                                 className={s.form__radio}
                                 value={e.id}
-                                name="radio"
+                                name="position_id"
                             />
                             <span className={s.form__check_style}/>
                             {e.name}
                             {validationCheckHandler('position_id')}
                         </label>
                     ))}
+
                 </div>
-                <label className={s.label}>
+
+                <label className={`${s.label} ${formik.touched.photo && formik.errors.photo && s.form__input_error} `}>
                     {/* <input className="choose" type="file" name="avatar" {...formik.getFieldProps('photo')}/> */}
                     <input required className="choose" type="file"   {...formik.getFieldProps('photo')}/>
                     <span className={s.button}>Upload</span>

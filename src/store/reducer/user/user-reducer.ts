@@ -4,6 +4,7 @@ import {userApi} from "api/user";
 import {setInitialized} from "store/reducer/app/app-reducer";
 import {initialStateType, UserType} from "store/reducer/user/types";
 import {GlobalActionType} from "utils/globalTypeAction";
+import {processingErrorHandler} from "utils/processingError";
 
 const initialState: initialStateType = {
     users: [],
@@ -54,8 +55,8 @@ export const getUsersTC = (page: number, count: number) => async (dispatch: Disp
         const respons = await userApi.getUser(page, count)
         dispatch(setUsers(respons.data))
     } catch (e) {
-        // eslint-disable-next-line no-alert
-        alert(e)
+        const {message}: any = e
+        processingErrorHandler(message, dispatch);
     } finally {
         dispatch(setInitialized(false))
     }
