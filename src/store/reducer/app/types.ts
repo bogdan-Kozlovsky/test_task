@@ -1,4 +1,4 @@
 export type initialStateType = {
-    initialized: boolean
-    error: null | string
-}
+  initialized: boolean;
+  error: null | string;
+};

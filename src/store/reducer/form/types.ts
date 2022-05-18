@@ -1,10 +1,10 @@
 export type initialStateType = {
-    positions: PositionType[],
-    success: boolean,
-    token: string
-}
+  positions: PositionType[];
+  success: boolean;
+  token: string;
+};
 
 export type PositionType = {
-    id: string,
-    name: string,
-}
+  id: string;
+  name: string;
+};
