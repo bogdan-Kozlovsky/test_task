@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
 import preloader from 'assets/icons/preloader.svg';
+import { PATH } from 'common/enums/patch';
 import { useAppSelector } from 'common/hook/useAppSelectorHook';
 import { ModalError } from 'common/modalError/ModalError';
 import s from 'components/form/style.module.scss';
@@ -10,7 +12,9 @@ import { addUserTC, getPositionTC, getTokenTC } from 'store/reducer/form/form-re
 import {
   selectErrorValue,
   selectInitialized,
+  selectIsRedirect,
   selectPosition,
+  selectUsers,
 } from 'store/selectors/selectors';
 import { useTypedDispatch } from 'store/store';
 import { checkValidation } from 'utils/checkValidation';
@@ -19,8 +23,13 @@ export const Form = () => {
   const dispatch = useTypedDispatch();
 
   const initialized = useAppSelector(selectInitialized);
+  const users = useAppSelector(selectUsers);
   const error = useAppSelector(selectErrorValue);
   const positionDate = useAppSelector(selectPosition);
+  const isRedirectValue = useAppSelector(selectIsRedirect);
+
+  // redirect
+  const navigate = useNavigate();
 
   // local state
   const [disable, setDisable] = useState<boolean>(true);
@@ -68,6 +77,18 @@ export const Form = () => {
     dispatch(getPositionTC());
     dispatch(getTokenTC());
   }, []);
+
+  // useEffect(() => {
+  //   // eslint-disable-next-line no-debugger
+  //   debugger;
+  //
+  //   navigate(`${PATH.USERS}`);
+  //   // useNavigate() path.users
+  // }, [isRedirects]);
+
+  if (isRedirectValue) {
+    navigate(`${PATH.USERS}`);
+  }
 
   return (
     <div className={`container ${s.form__box}`}>

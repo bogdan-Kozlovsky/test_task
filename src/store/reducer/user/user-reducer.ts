@@ -19,6 +19,7 @@ const initialState: initialStateType = {
     page: 1,
     count: 6,
   },
+  isRedirectValue: false,
 };
 
 // reducer
@@ -30,6 +31,10 @@ export const userReducer = (
     case 'USER/SET_USERS': {
       return { ...state, ...action.payload.user };
     }
+    // case 'USER/SET_USERS': {
+    //   const users = [action.payload.user, ...state.users]
+    //   return { ...state, users };
+    // }
     case 'USER/SET_CURRENT_PAGE': {
       return {
         ...state,
@@ -39,6 +44,10 @@ export const userReducer = (
         },
       };
     }
+    case 'APP/IS_SUCCESS':
+      return { ...state, isRedirectValue: action.value };
+    case 'APP/RESET_PAGE':
+      return { ...state, params: { ...state.params, page: 1 } };
     default:
       return state;
   }
@@ -57,12 +66,17 @@ export const setCurrentPage = (value: number) =>
     value,
   } as const);
 
+export const isRedirect = (value: boolean) =>
+  ({ type: 'APP/IS_SUCCESS', value } as const);
+export const resetPage = (value: number) => ({ type: 'APP/RESET_PAGE', value } as const);
+
 // thunk
 export const getUsersTC = (page: number, count: number) => async (dispatch: Dispatch) => {
   try {
     dispatch(setInitialized(true));
-    const respons = await userApi.getUser(page, count);
-    dispatch(setUsers(respons.data));
+    const response = await userApi.getUser(page, count);
+    dispatch(isRedirect(false));
+    dispatch(setUsers(response.data));
   } catch (e) {
     const { message }: any = e;
     processingErrorHandler(message, dispatch);

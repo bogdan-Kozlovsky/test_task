@@ -177,3 +177,10 @@
   opacity: .7;
   font-size: 13px;
 }
+
+
+@media (max-width: 460px) {
+  .form__input {
+    width: 300px;
+  }
+}

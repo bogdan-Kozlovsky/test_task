@@ -15,6 +15,7 @@ export const appReducer = (
       return { ...state, initialized: action.value };
     case 'APP/SET_ERROR_VALUE':
       return { ...state, error: action.value };
+
     default:
       return state;
   }

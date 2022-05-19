@@ -17,7 +17,14 @@ export const checkValidation = (
   // email
   if (!values.email) {
     errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    /* eslint-disable no-useless-escape */
+  }
+  if (
+    !/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i.test(
+      <string>values.email,
+    )
+  ) {
     errors.email = 'The email must be a valid email address';
   }
   // name
@@ -38,7 +45,7 @@ export const checkValidation = (
   if (!values.phone) {
     errors.phone = 'Required';
   } else {
-    const minValue = 12;
+    const minValue = 13;
     if (values.phone.length < minValue) {
       errors.phone = 'The name must be at least 12 characters.';
     } else if (!/^\+[0-9]/i.test(values.phone)) {
@@ -71,4 +78,3 @@ export const checkValidation = (
   }
   return errors;
 };
-

@@ -3,10 +3,13 @@ import { Dispatch } from 'redux';
 import { formApi } from 'api/form';
 import { AddUserType } from 'api/form/types';
 import { tokenApi } from 'api/token';
+import { PATH_SERVER_RESPONS } from 'common/enums/patch';
 import { setInitialized } from 'store/reducer/app/app-reducer';
 import { initialStateType, PositionType } from 'store/reducer/form/types';
+import { isRedirect, resetPage } from 'store/reducer/user/user-reducer';
 import { AppRootType } from 'store/store';
 import { processingErrorHandler } from 'utils/processingError';
+import { ThunkType } from 'utils/thunkType';
 
 const initialState: initialStateType = {
   success: false,
@@ -71,24 +74,50 @@ export const getTokenTC = () => async (dispatch: Dispatch) => {
 };
 
 export const addUserTC =
-  (data: AddUserType) => async (dispatch: Dispatch, getState: () => AppRootType) => {
+  (data: AddUserType): ThunkType =>
+  async (dispatch, getState: () => AppRootType) => {
     const { token } = getState().form;
     try {
       dispatch(setInitialized(true));
-      await formApi.addUser(data, token);
+      const response = await formApi.addUser(data, token);
+      dispatch(isRedirect(response.data.success));
+      const firstPage = 1;
+      dispatch(resetPage(firstPage));
+
+      const user = {
+        ...data,
+        user_id: response.data.user_id,
+      };
+      // dispatch(setUser(user))
     } catch (e) {
-      const codeRequestError = 422;
-      if ((e as any).response.status === codeRequestError) {
+      dispatch(getTokenTC());
+
+      if ((e as any).response.status === PATH_SERVER_RESPONS.ERROR_409) {
         const firstElement = 0;
-        processingErrorHandler(
-          (e as any).response.data.fails.photo[firstElement],
-          dispatch,
-        );
+        // eslint-disable-next-line no-alert
+        // alert((e as any).response.data.fails.photo[firstElement]);
+        console.log(e);
+        processingErrorHandler((e as any).response.data.message, dispatch);
       } else {
         const { message }: any = e;
         processingErrorHandler(message, dispatch);
       }
+      if ((e as any).response.status === PATH_SERVER_RESPONS.ERROR_422) {
+        console.log(e);
+        const firstElement = 0;
+        const errors = (e as any).response.data.fails;
+        const errorsMessages = [];
+        // eslint-disable-next-line guard-for-in,no-restricted-syntax
+        for (const key in errors) {
+          // eslint-disable-next-line no-undef,@typescript-eslint/no-magic-numbers
+          const errorMessage = errors[key][0];
+          errorsMessages.push(errorMessage);
+        }
+
+        processingErrorHandler(errorsMessages.join(','), dispatch);
+      }
     } finally {
       dispatch(setInitialized(false));
+      // dispatch(isSuccess(false));
     }
   };

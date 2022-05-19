@@ -26,7 +26,7 @@ body {
   max-width: 1200px;
   width: 100%;
   padding: 0 15px;
-  margin: 0 auto;
+  margin: 0 auto 30px;
 }
 
 .btn {
@@ -64,5 +64,14 @@ body {
 
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+// media adaptiv
+
+@media (max-width: 400px) {
+  .btn {
+    padding: 4px 25px;
   }
 }

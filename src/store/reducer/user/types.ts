@@ -11,6 +11,7 @@ export type initialStateType = {
     page: number;
     count: number;
   };
+  isRedirectValue: boolean;
 };
 
 export type UserType = {
