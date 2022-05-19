@@ -28,22 +28,13 @@ export const userReducer = (
   action: GlobalActionType,
 ): initialStateType => {
   switch (action.type) {
-    case 'USER/SET_USERS': {
+    case 'USER/SET_USERS':
       return { ...state, ...action.payload.user };
-    }
-    // case 'USER/SET_USERS': {
-    //   const users = [action.payload.user, ...state.users]
-    //   return { ...state, users };
-    // }
-    case 'USER/SET_CURRENT_PAGE': {
+    case 'USER/SET_CURRENT_PAGE':
       return {
         ...state,
-        params: {
-          ...state.params,
-          page: action.value,
-        },
+        params: { ...state.params, page: action.value },
       };
-    }
     case 'APP/IS_SUCCESS':
       return { ...state, isRedirectValue: action.value };
     case 'APP/RESET_PAGE':
@@ -55,17 +46,9 @@ export const userReducer = (
 
 // action creator
 export const setUsers = (user: UserType) =>
-  ({
-    type: 'USER/SET_USERS',
-    payload: { user },
-  } as const);
-
+  ({ type: 'USER/SET_USERS', payload: { user } } as const);
 export const setCurrentPage = (value: number) =>
-  ({
-    type: 'USER/SET_CURRENT_PAGE',
-    value,
-  } as const);
-
+  ({ type: 'USER/SET_CURRENT_PAGE', value } as const);
 export const isRedirect = (value: boolean) =>
   ({ type: 'APP/IS_SUCCESS', value } as const);
 export const resetPage = (value: number) => ({ type: 'APP/RESET_PAGE', value } as const);

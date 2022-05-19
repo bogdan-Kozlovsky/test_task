@@ -78,14 +78,6 @@ export const Form = () => {
     dispatch(getTokenTC());
   }, []);
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line no-debugger
-  //   debugger;
-  //
-  //   navigate(`${PATH.USERS}`);
-  //   // useNavigate() path.users
-  // }, [isRedirects]);
-
   if (isRedirectValue) {
     navigate(`${PATH.USERS}`);
   }

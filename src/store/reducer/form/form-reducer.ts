@@ -36,15 +36,11 @@ export const formReducer = (
 
 // action creator
 const setPosition = (position: PositionType) =>
-  ({
-    type: 'POSITION/SET_POSITION',
-    payload: { position },
-  } as const);
+  ({ type: 'POSITION/SET_POSITION', payload: { position } } as const);
 const setToken = (tokenValue: string) =>
-  ({
-    type: 'POSITION/SET_TOKEN',
-    tokenValue,
-  } as const);
+  ({ type: 'POSITION/SET_TOKEN', tokenValue } as const);
+
+// global action creator type
 export type GlobalActionType =
   | ReturnType<typeof setPosition>
   | ReturnType<typeof setToken>;
@@ -83,41 +79,26 @@ export const addUserTC =
       dispatch(isRedirect(response.data.success));
       const firstPage = 1;
       dispatch(resetPage(firstPage));
-
-      const user = {
-        ...data,
-        user_id: response.data.user_id,
-      };
-      // dispatch(setUser(user))
     } catch (e) {
       dispatch(getTokenTC());
-
       if ((e as any).response.status === PATH_SERVER_RESPONS.ERROR_409) {
-        const firstElement = 0;
-        // eslint-disable-next-line no-alert
-        // alert((e as any).response.data.fails.photo[firstElement]);
-        console.log(e);
         processingErrorHandler((e as any).response.data.message, dispatch);
       } else {
         const { message }: any = e;
         processingErrorHandler(message, dispatch);
       }
       if ((e as any).response.status === PATH_SERVER_RESPONS.ERROR_422) {
-        console.log(e);
-        const firstElement = 0;
+        const zeroElement = 0;
         const errors = (e as any).response.data.fails;
         const errorsMessages = [];
         // eslint-disable-next-line guard-for-in,no-restricted-syntax
         for (const key in errors) {
-          // eslint-disable-next-line no-undef,@typescript-eslint/no-magic-numbers
-          const errorMessage = errors[key][0];
+          const errorMessage = errors[key][zeroElement];
           errorsMessages.push(errorMessage);
         }
-
         processingErrorHandler(errorsMessages.join(','), dispatch);
       }
     } finally {
       dispatch(setInitialized(false));
-      // dispatch(isSuccess(false));
     }
   };
