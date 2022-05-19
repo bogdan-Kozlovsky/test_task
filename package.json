@@ -1,5 +1,6 @@
 {
   "name": "testtask",
+  "homepage": "https://bogdan-Kozlovsky.github.io/test_task",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
