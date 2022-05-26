@@ -1,4 +1,4 @@
-export type initialStateType = {
+export type InitialStateType = {
   positions: PositionType[];
   success: boolean;
   token: string;

@@ -1,4 +1,0 @@
-export enum PATH_SERVER_ERRORS {
-  ERROR_422 = 422,
-  ERROR_409 = 409,
-}

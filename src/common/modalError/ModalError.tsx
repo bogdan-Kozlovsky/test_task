@@ -1,12 +1,13 @@
-import { useAppSelector } from 'common/hook/useAppSelectorHook';
 import s from 'common/modalError/style.module.scss';
-import { selectErrorValue } from 'store/selectors/selectors';
+import { useAppSelector } from 'hooks/useAppSelectorHook';
+import { selectErrorMessage } from 'store/selectors/selectors';
 
 export const ModalError = () => {
-  const error = useAppSelector(selectErrorValue);
+  const errorMessage = useAppSelector(selectErrorMessage);
+
   return (
     <div className={s.wrapper}>
-      <div className={s.block}>{error}</div>
+      <div className={s.block}>{errorMessage}</div>
     </div>
   );
 };

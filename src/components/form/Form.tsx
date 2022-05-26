@@ -4,37 +4,38 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
 import preloader from 'assets/icons/preloader.svg';
-import { PATH_NAVIGATION } from 'common/enums/navigation';
-import { useAppSelector } from 'common/hook/useAppSelectorHook';
+import { Button } from 'common/button/Button';
 import { ModalError } from 'common/modalError/ModalError';
+import { InputFile } from 'components/form/inputFile/InputFile';
+import { Positions } from 'components/form/position/Positions';
 import s from 'components/form/style.module.scss';
+import { PathNavigation } from 'enums/NAVIGATION';
+import { useAppSelector } from 'hooks/useAppSelectorHook';
 import { addUserTC, getPositionTC, getTokenTC } from 'store/reducer/form/form-reducer';
 import {
-  selectErrorValue,
+  selectErrorMessage,
   selectInitialized,
   selectIsRedirect,
-  selectPosition,
+  selectPositions,
 } from 'store/selectors/selectors';
 import { useTypedDispatch } from 'store/store';
 import { checkValidation } from 'utils/checkValidation';
+
+const FIRST_FILE_INDEX = 0;
 
 export const Form = () => {
   const dispatch = useTypedDispatch();
 
   const initialized = useAppSelector(selectInitialized);
-  const error = useAppSelector(selectErrorValue);
-  const positionDate = useAppSelector(selectPosition);
+  const errorMessage = useAppSelector(selectErrorMessage);
+  const positions = useAppSelector(selectPositions);
   const isRedirectValue = useAppSelector(selectIsRedirect);
 
-  // redirect
   const navigate = useNavigate();
 
-  // local state
-  const [disable, setDisable] = useState<boolean>(true);
+  const [isDisable, setIsDisable] = useState<boolean>(true);
 
-  // formik
-  // @ts-ignore
-  const formik = useFormik({
+  const formik: any = useFormik({
     initialValues: {
       name: '',
       email: '',
@@ -42,32 +43,33 @@ export const Form = () => {
       position_id: 1,
       photo: '',
     },
-    validate: values => checkValidation(formik, values, setDisable),
+
+    validate: values => checkValidation(formik, values, setIsDisable),
+
     onSubmit: data => {
-      dispatch(addUserTC({ ...data, position_id: +data.position_id }));
-      setDisable(false);
+      dispatch(addUserTC({ ...data, position_id: Number(data.position_id) }));
+      setIsDisable(false);
       formik.resetForm();
     },
   });
 
-  const isErrorChecking = (value: string): string =>
+  const hasError = (value: string): string =>
     formik.touched[value] && formik.errors[value];
 
-  const validationCheckHandler = (value: string) =>
-    formik.touched[value] && formik.errors[value] ? (
-      <div className={s.form__error}>{formik.errors[value]}</div>
-    ) : null;
+  const setFormError = (value: string) => {
+    if (formik.touched[value] && formik.errors[value]) {
+      return <div className={s.form__error}>{formik.errors[value]}</div>;
+    }
+    return null;
+  };
 
-  // onChange input radio
-  const onChangeHandlerInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const onPositionIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
   };
 
-  // onChange input photo
-  const onChangeHandlerPhoto = (e: ChangeEvent<HTMLInputElement>) => {
-    const firstElement = 0;
+  const onPhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files.length) {
-      formik.setFieldValue('photo', e.currentTarget.files[firstElement]);
+      formik.setFieldValue('photo', e.currentTarget.files[FIRST_FILE_INDEX]);
     }
   };
 
@@ -77,97 +79,67 @@ export const Form = () => {
   }, []);
 
   if (isRedirectValue) {
-    navigate(`${PATH_NAVIGATION.USERS}`);
+    navigate(`${PathNavigation.USER}`);
   }
 
   return (
     <div className={`container ${s.form__box}`}>
-      {error && <ModalError />}
+      {errorMessage && <ModalError />}
+
       <h2 className="title">Working with POST request</h2>
       <form className={s.form__wrapper} onSubmit={formik.handleSubmit}>
         <div>
           <label className={s.form__labelStyle_error}>
             <input
-              className={`${s.form__input} ${
-                formik.touched.name && formik.errors.name && s.form__input_error
-              } `}
+              className={`${s.form__input} ${hasError('name') && s.form__input_error} `}
               placeholder="Your name"
               {...formik.getFieldProps('name')}
             />
-            {/* // validate name */}
-            {validationCheckHandler('name')}
+            {setFormError('name')}
           </label>
 
           <label className={s.form__labelStyle_error}>
             <input
-              className={`${s.form__input} ${
-                formik.touched.email && formik.errors.email && s.form__input_error
-              } `}
+              className={`${s.form__input} ${hasError('email') && s.form__input_error} `}
               placeholder="Email"
               {...formik.getFieldProps('email')}
             />
-            {/* // validate email */}
-            {validationCheckHandler('email')}
+            {setFormError('email')}
           </label>
 
           <label className={`${s.form__label} ${s.form__labelStyle_error}`}>
             <input
-              className={`${s.form__input} ${
-                formik.touched.phone && formik.errors.phone && s.form__input_error
-              } `}
+              className={`${s.form__input} ${hasError('phone') && s.form__input_error} `}
               type="text"
               placeholder="Phone"
               {...formik.getFieldProps('phone')}
             />
-            {/* // validate phone */}
             <span className={s.form__label_span}>+38 (XXX) XXX - XX - XX</span>
-            {validationCheckHandler('phone')}
+            {setFormError('phone')}
           </label>
         </div>
 
         <div className={s.form__select_wrap}>
-          {/* // loader active */}
           {initialized && <img className="preloader" src={preloader} alt="preloader" />}
-
           <p className={s.form__select_text}>Select your position</p>
 
-          {positionDate.map(e => (
-            <label key={e.id} className={s.form__select_item}>
-              <input
-                defaultChecked={formik.values.position_id === e.id}
-                onChange={onChangeHandlerInput}
-                required
-                type="radio"
-                className={s.form__radio}
-                value={e.id}
-                name="position_id"
-              />
-              <span className={s.form__check_style} />
-              {e.name}
-              {validationCheckHandler('position_id')}
-            </label>
-          ))}
+          <Positions
+            onPositionIdChange={onPositionIdChange}
+            setFormError={setFormError}
+            positions={positions}
+            position_id={formik.position_id}
+          />
         </div>
 
-        <label
-          className={`${s.label} ${
-            formik.touched.photo && formik.errors.photo && s.form__input_error
-          } `}
-        >
-          <input
-            required
-            className="choose"
-            name="photo"
-            type="file"
-            onChange={onChangeHandlerPhoto}
-          />
-          <span className={s.button}>Upload</span>
-          <span className={s.labelTwo}>Upload your photo</span>
-          {validationCheckHandler('photo')}
-        </label>
-        <button className={s.form__btn} disabled={disable} type="submit">
+        <InputFile
+          setFormError={setFormError}
+          hasError={hasError}
+          onPhotoChange={onPhotoChange}
+        />
+
+        <Button className={s.form__btn} disabled={isDisable} type="submit">
           Sign up
-        </button>
+        </Button>
       </form>
     </div>
   );

@@ -1,6 +1,8 @@
+import { PositionType } from 'store/reducer/form/types';
+import { UserType } from 'store/reducer/user/types';
 import { AppRootType } from 'store/store';
 // user
-export const selectUsers = (state: AppRootType) => state.user.users;
+export const selectUsers = (state: AppRootType): UserType[] => state.user.users;
 export const selectPage = (state: AppRootType) => state.user.params.page;
 export const selectCount = (state: AppRootType) => state.user.params.count;
 export const selectTotalPages = (state: AppRootType) => state.user.total_pages;
@@ -10,7 +12,8 @@ export const selectIsRedirect = (state: AppRootType) => state.user.isRedirectVal
 export const selectInitialized = (state: AppRootType) => state.app.initialized;
 
 // form
-export const selectPosition = (state: AppRootType) => state.form.positions;
+export const selectPositions = (state: AppRootType): PositionType[] =>
+  state.form.positions;
 
 // error
-export const selectErrorValue = (state: AppRootType) => state.app.error;
+export const selectErrorMessage = (state: AppRootType) => state.app.error;

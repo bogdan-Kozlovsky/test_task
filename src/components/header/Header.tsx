@@ -3,20 +3,20 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import logo from 'assets/icons/logo.svg';
-import { PATH_NAVIGATION } from 'common/enums/navigation';
+import { PathNavigation } from 'enums/NAVIGATION';
 import s from 'components/header/style.module.scss';
 
 export const Header = () => (
   <div className="container">
     <div className={s.wrapper}>
-      <NavLink to={PATH_NAVIGATION.BANNER}>
+      <NavLink to={PathNavigation.BANNER}>
         <img className={s.logo} src={logo} alt="logo" />
       </NavLink>
       <div className={s.wrapperNavigate}>
-        <NavLink to={PATH_NAVIGATION.USERS} className="btn">
+        <NavLink to={PathNavigation.USER} className="btn">
           Users
         </NavLink>
-        <NavLink to={PATH_NAVIGATION.FORM} className="btn">
+        <NavLink to={PathNavigation.FORM} className="btn">
           Sign up
         </NavLink>
       </div>
