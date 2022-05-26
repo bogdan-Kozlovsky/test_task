@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 
 import preloader from 'assets/icons/preloader.svg';
-import { PATH } from 'common/enums/patch';
+import { PATH_NAVIGATION } from 'common/enums/navigation';
 import { useAppSelector } from 'common/hook/useAppSelectorHook';
 import { ModalError } from 'common/modalError/ModalError';
 import s from 'components/form/style.module.scss';
@@ -14,7 +14,6 @@ import {
   selectInitialized,
   selectIsRedirect,
   selectPosition,
-  selectUsers,
 } from 'store/selectors/selectors';
 import { useTypedDispatch } from 'store/store';
 import { checkValidation } from 'utils/checkValidation';
@@ -23,7 +22,6 @@ export const Form = () => {
   const dispatch = useTypedDispatch();
 
   const initialized = useAppSelector(selectInitialized);
-  const users = useAppSelector(selectUsers);
   const error = useAppSelector(selectErrorValue);
   const positionDate = useAppSelector(selectPosition);
   const isRedirectValue = useAppSelector(selectIsRedirect);
@@ -52,7 +50,7 @@ export const Form = () => {
     },
   });
 
-  const isErrorChecking = (value: string) =>
+  const isErrorChecking = (value: string): string =>
     formik.touched[value] && formik.errors[value];
 
   const validationCheckHandler = (value: string) =>
@@ -79,7 +77,7 @@ export const Form = () => {
   }, []);
 
   if (isRedirectValue) {
-    navigate(`${PATH.USERS}`);
+    navigate(`${PATH_NAVIGATION.USERS}`);
   }
 
   return (
@@ -91,7 +89,7 @@ export const Form = () => {
           <label className={s.form__labelStyle_error}>
             <input
               className={`${s.form__input} ${
-                isErrorChecking('name') && s.form__input_error
+                formik.touched.name && formik.errors.name && s.form__input_error
               } `}
               placeholder="Your name"
               {...formik.getFieldProps('name')}

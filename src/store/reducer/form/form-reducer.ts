@@ -1,13 +1,13 @@
 import { Dispatch } from 'redux';
 
 import { formApi } from 'api/form';
-import { AddUserType } from 'api/form/types';
 import { tokenApi } from 'api/token';
-import { PATH_SERVER_RESPONS } from 'common/enums/patch';
+import { PATH_SERVER_ERRORS } from 'common/enums/serverRespons';
 import { setInitialized } from 'store/reducer/app/app-reducer';
 import { initialStateType, PositionType } from 'store/reducer/form/types';
 import { isRedirect, resetPage } from 'store/reducer/user/user-reducer';
 import { AppRootType } from 'store/store';
+import { UserType } from 'types/UserType';
 import { processingErrorHandler } from 'utils/processingError';
 import { ThunkType } from 'utils/thunkType';
 
@@ -70,7 +70,7 @@ export const getTokenTC = () => async (dispatch: Dispatch) => {
 };
 
 export const addUserTC =
-  (data: AddUserType): ThunkType =>
+  (data: UserType): ThunkType =>
   async (dispatch, getState: () => AppRootType) => {
     const { token } = getState().form;
     try {
@@ -81,13 +81,14 @@ export const addUserTC =
       dispatch(resetPage(firstPage));
     } catch (e) {
       dispatch(getTokenTC());
-      if ((e as any).response.status === PATH_SERVER_RESPONS.ERROR_409) {
+      // eslint-disable-next-line no-undef
+      if ((e as any).response.status === PATH_SERVER_ERRORS.ERROR_409) {
         processingErrorHandler((e as any).response.data.message, dispatch);
       } else {
         const { message }: any = e;
         processingErrorHandler(message, dispatch);
       }
-      if ((e as any).response.status === PATH_SERVER_RESPONS.ERROR_422) {
+      if ((e as any).response.status === PATH_SERVER_ERRORS.ERROR_422) {
         const zeroElement = 0;
         const errors = (e as any).response.data.fails;
         const errorsMessages = [];

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { PATH } from 'common/enums/patch';
+import { PATH_NAVIGATION } from 'common/enums/navigation';
 import { Banner } from 'components/banner/Banner';
 import { Error404 } from 'components/error404/Error404';
 import { Form } from 'components/form/Form';
@@ -13,10 +13,10 @@ export const App = () => (
   <div>
     <Header />
     <Routes>
-      <Route path={PATH.BANNER} element={<Banner />} />
-      <Route path={PATH.USERS} element={<Users />} />
-      <Route path={PATH.FORM} element={<Form />} />
-      <Route path={PATH.ERROR_404} element={<Error404 />} />
+      <Route path={PATH_NAVIGATION.BANNER} element={<Banner />} />
+      <Route path={PATH_NAVIGATION.USERS} element={<Users />} />
+      <Route path={PATH_NAVIGATION.FORM} element={<Form />} />
+      <Route path={PATH_NAVIGATION.NOT_PAGE_FOUND} element={<Error404 />} />
       <Route path="*" element={<Navigate to="404" />} />
     </Routes>
   </div>

@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import banner from 'assets/images/banner.jpg';
-import { PATH } from 'common/enums/patch';
+import { PATH_NAVIGATION } from 'common/enums/navigation';
 import s from 'components/banner/style.module.scss';
 
 export const Banner = () => (
@@ -16,7 +16,7 @@ export const Banner = () => (
         web interfaces with accessibility in mind. They should also be excited to learn,
         as the world of Front-End Development keeps evolving.
       </p>
-      <NavLink to={PATH.FORM} className="btn">
+      <NavLink to={PATH_NAVIGATION.FORM} className="btn">
         Sign up
       </NavLink>
     </div>

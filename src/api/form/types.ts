@@ -1,13 +1,10 @@
-export type AddUserType = {
-  name: string | number;
-  email: string | number;
-  phone: string | number;
-  position_id: number | null;
-  photo: string | number;
-};
-
-export type AnswerUser = {
+export type AnswerUserType = {
   success: boolean;
   user_id: number;
   message: string;
+};
+
+export type GetTokenType = {
+  success: boolean;
+  token: string;
 };
