@@ -14,19 +14,19 @@ import { useAppSelector } from 'hooks/useAppSelectorHook';
 import { addUserTC, getPositionTC, getTokenTC } from 'store/reducer/form/form-reducer';
 import {
   selectErrorMessage,
-  selectInitialized,
+  selectIsInitialized,
   selectIsRedirect,
   selectPositions,
 } from 'store/selectors/selectors';
 import { useTypedDispatch } from 'store/store';
-import { checkValidation } from 'utils/checkValidation';
+import { checkValidation } from 'utils/checkValidation/checkValidation';
 
 const FIRST_FILE_INDEX = 0;
 
 export const Form = () => {
   const dispatch = useTypedDispatch();
 
-  const initialized = useAppSelector(selectInitialized);
+  const initialized = useAppSelector(selectIsInitialized);
   const errorMessage = useAppSelector(selectErrorMessage);
   const positions = useAppSelector(selectPositions);
   const isRedirectValue = useAppSelector(selectIsRedirect);
@@ -46,10 +46,10 @@ export const Form = () => {
 
     validate: values => checkValidation(formik, values, setIsDisable),
 
-    onSubmit: data => {
+    onSubmit: (data, { resetForm }) => {
       dispatch(addUserTC({ ...data, position_id: Number(data.position_id) }));
       setIsDisable(false);
-      formik.resetForm();
+      resetForm();
     },
   });
 

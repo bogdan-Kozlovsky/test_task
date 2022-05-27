@@ -1,15 +1,7 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
+import { PositionsPropsType } from 'components/form/position/types';
 import s from 'components/form/style.module.scss';
-import { PositionType } from 'store/reducer/form/types';
-
-type PositionsPropsType = {
-  onPositionIdChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  // eslint-disable-next-line no-undef
-  setFormError: (value: string) => JSX.Element | null;
-  positions: PositionType[];
-  position_id: string;
-};
 
 export const Positions = (props: PositionsPropsType) => {
   const { onPositionIdChange, setFormError, positions, position_id: positionId } = props;

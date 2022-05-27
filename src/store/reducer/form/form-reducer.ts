@@ -7,9 +7,9 @@ import { setInitialized } from 'store/reducer/app/app-reducer';
 import { InitialStateType, PositionType } from 'store/reducer/form/types';
 import { isRedirect, resetPage } from 'store/reducer/user/user-reducer';
 import { AppRootType } from 'store/store';
+import { ThunkType } from 'types/thunkType';
 import { UserType } from 'types/UserType';
 import { processingErrorHandler } from 'utils/processingError';
-import { ThunkType } from 'utils/thunkType';
 
 const initialState: InitialStateType = {
   success: false,

@@ -1,6 +1,9 @@
-const maximumStringLength = 32;
-const minimumStringLength = 0;
-export const fixLengthText = (text: string) =>
-  text && text?.length >= maximumStringLength
-    ? `${text.substr(minimumStringLength, maximumStringLength)}...`
-    : text;
+const MAX_TEXT_LENGTH = 32;
+const MIN_TEXT_LENGTH = 0;
+
+export const fixLengthText = (text: string) => {
+  if (text && text?.length >= MAX_TEXT_LENGTH) {
+    return `${text.substr(MIN_TEXT_LENGTH, MAX_TEXT_LENGTH)}...`;
+  }
+  return text;
+};

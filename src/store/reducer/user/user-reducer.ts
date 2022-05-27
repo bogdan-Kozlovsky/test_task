@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { userApi } from 'api/user';
 import { setInitialized } from 'store/reducer/app/app-reducer';
 import { initialStateType, UserType } from 'store/reducer/user/types';
-import { GlobalActionType } from 'utils/globalTypeAction';
+import { GlobalActionType } from 'types/globalTypeAction';
 import { processingErrorHandler } from 'utils/processingError';
 
 const initialState: initialStateType = {

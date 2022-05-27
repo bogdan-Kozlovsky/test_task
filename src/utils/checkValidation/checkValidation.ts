@@ -1,12 +1,7 @@
 import { FormikProps } from 'formik';
 
-type FormikErrorType = {
-  email?: string;
-  name?: string;
-  phone?: string;
-  photo?: string;
-  position_id?: any;
-};
+import { FormikErrorType } from 'utils/checkValidation/types';
+
 export const checkValidation = (
   formik: FormikProps<FormikErrorType>,
   values: FormikErrorType,
@@ -14,11 +9,8 @@ export const checkValidation = (
 ) => {
   const errors: FormikErrorType = {};
 
-  // email
   if (!values.email) {
     errors.email = 'Required';
-    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    /* eslint-disable no-useless-escape */
   }
   if (
     !/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i.test(
@@ -27,50 +19,48 @@ export const checkValidation = (
   ) {
     errors.email = 'The email must be a valid email address';
   }
-  // name
+
   if (!values.name) {
     errors.name = 'Required';
   } else {
-    const minValue = 2;
-    const maxValue = 60;
-    if (values.name.length < minValue) {
+    const minNameLength = 2;
+    const maxNameLength = 60;
+    if (values.name.length < minNameLength) {
       errors.name = 'The name must be at least 2 characters.';
     }
-    if (values.name.length > maxValue) {
+    if (values.name.length > maxNameLength) {
       errors.name = 'The maximum string length must be no more than 60 characters';
     }
   }
 
-  // phone
   if (!values.phone) {
     errors.phone = 'Required';
   } else {
-    const minValue = 13;
-    if (values.phone.length < minValue) {
+    const minPhoneLength = 13;
+    if (values.phone.length < minPhoneLength) {
       errors.phone = 'The name must be at least 12 characters.';
     } else if (!/^\+[0-9]/i.test(values.phone)) {
       errors.phone = 'good';
     }
   }
 
-  // photo
   if (!values.photo) {
     errors.photo = 'Required';
   }
 
-  // photo
   if (!values.position_id) {
     errors.position_id = 'Required';
   }
-
-  if (
+  const isError =
     formik.errors.email ||
     formik.errors.name ||
     formik.errors.photo ||
-    formik.errors.phone
-  ) {
-    const number = 0;
-    if (Object.keys(errors).length === number) {
+    formik.errors.phone;
+
+  if (isError) {
+    const emptyErrorsLength = 0;
+    const isDisabled = Object.keys(errors).length === emptyErrorsLength;
+    if (isDisabled) {
       setDisable(false);
     } else {
       setDisable(true);

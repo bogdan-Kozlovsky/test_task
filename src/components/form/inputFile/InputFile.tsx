@@ -1,12 +1,7 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
+import { InputFilePropsType } from 'components/form/inputFile/types';
 import s from 'components/form/style.module.scss';
-
-type InputFilePropsType = {
-  onPhotoChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  setFormError: (value: string) => any;
-  hasError: (value: string) => string;
-};
 
 export const InputFile = (props: InputFilePropsType) => {
   const { setFormError, onPhotoChange, hasError } = props;

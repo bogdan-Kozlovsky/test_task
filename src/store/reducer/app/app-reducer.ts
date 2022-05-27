@@ -1,8 +1,8 @@
 import { initialStateType } from 'store/reducer/app/types';
 
 const initialState: initialStateType = {
-  initialized: false,
-  error: null,
+  isInitialized: false,
+  errorMessage: null,
 };
 
 // reducer
@@ -12,9 +12,9 @@ export const appReducer = (
 ): initialStateType => {
   switch (action.type) {
     case 'APP/SET_INITIALIZED':
-      return { ...state, initialized: action.value };
+      return { ...state, isInitialized: action.value };
     case 'APP/SET_ERROR_VALUE':
-      return { ...state, error: action.value };
+      return { ...state, errorMessage: action.value };
     default:
       return state;
   }

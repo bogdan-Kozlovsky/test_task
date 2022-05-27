@@ -9,11 +9,11 @@ export const selectTotalPages = (state: AppRootType) => state.user.total_pages;
 export const selectIsRedirect = (state: AppRootType) => state.user.isRedirectValue;
 
 // app
-export const selectInitialized = (state: AppRootType) => state.app.initialized;
+export const selectIsInitialized = (state: AppRootType) => state.app.isInitialized;
 
 // form
 export const selectPositions = (state: AppRootType): PositionType[] =>
   state.form.positions;
 
 // error
-export const selectErrorMessage = (state: AppRootType) => state.app.error;
+export const selectErrorMessage = (state: AppRootType) => state.app.errorMessage;
