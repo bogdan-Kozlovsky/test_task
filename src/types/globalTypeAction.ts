@@ -3,7 +3,7 @@ import {
   resetPage,
   setCurrentPage,
   setUsers,
-} from 'store/reducer/user/user-reducer';
+} from 'store/actionCreator/user/actionCreator';
 
 export type GlobalActionType =
   | ReturnType<typeof setUsers>

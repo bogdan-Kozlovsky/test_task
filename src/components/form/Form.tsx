@@ -5,19 +5,19 @@ import { useNavigate } from 'react-router-dom';
 
 import preloader from 'assets/icons/preloader.svg';
 import { Button } from 'common/button/Button';
-import { ModalError } from 'common/modalError/ModalError';
+import { ModalErrorMessage } from 'common/modalErrorMessage/ModalErrorMessage';
 import { InputFile } from 'components/form/inputFile/InputFile';
 import { Positions } from 'components/form/position/Positions';
 import s from 'components/form/style.module.scss';
 import { PathNavigation } from 'enums/NAVIGATION';
 import { useAppSelector } from 'hooks/useAppSelectorHook';
-import { addUserTC, getPositionTC, getTokenTC } from 'store/reducer/form/form-reducer';
-import {
-  selectErrorMessage,
-  selectIsInitialized,
-  selectIsRedirect,
-  selectPositions,
-} from 'store/selectors/selectors';
+import { addUserTC } from 'store/middlewares/form/addUserTC';
+import { getPositionTC } from 'store/middlewares/form/getPositionTC';
+import { getTokenTC } from 'store/middlewares/form/getTokenTC';
+import { selectIsInitialized } from 'store/selectors/app/selectorsApp';
+import { selectErrorMessage } from 'store/selectors/error/selectorsError';
+import { selectPositions } from 'store/selectors/form/selectorsForm';
+import { selectIsRedirect } from 'store/selectors/user/selectorsUser';
 import { useTypedDispatch } from 'store/store';
 import { checkValidation } from 'utils/checkValidation/checkValidation';
 
@@ -84,7 +84,7 @@ export const Form = () => {
 
   return (
     <div className={`container ${s.form__box}`}>
-      {errorMessage && <ModalError />}
+      {errorMessage && <ModalErrorMessage />}
 
       <h2 className="title">Working with POST request</h2>
       <form className={s.form__wrapper} onSubmit={formik.handleSubmit}>

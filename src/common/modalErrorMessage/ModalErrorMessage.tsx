@@ -1,8 +1,8 @@
-import s from 'common/modalError/style.module.scss';
+import s from 'common/modalErrorMessage/style.module.scss';
 import { useAppSelector } from 'hooks/useAppSelectorHook';
-import { selectErrorMessage } from 'store/selectors/selectors';
+import { selectErrorMessage } from 'store/selectors/error/selectorsError';
 
-export const ModalError = () => {
+export const ModalErrorMessage = () => {
   const errorMessage = useAppSelector(selectErrorMessage);
 
   return (

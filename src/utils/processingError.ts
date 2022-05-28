@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { setErrorValue } from 'store/reducer/app/app-reducer';
+import { setErrorValue } from 'store/actionCreator/app/actionCreator';
 
 const DELAY = 5000;
 

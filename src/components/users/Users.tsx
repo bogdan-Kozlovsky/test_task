@@ -2,19 +2,20 @@ import React, { useEffect } from 'react';
 
 import preloader from 'assets/icons/preloader.svg';
 import { Button } from 'common/button/Button';
-import { ModalError } from 'common/modalError/ModalError';
+import { ModalErrorMessage } from 'common/modalErrorMessage/ModalErrorMessage';
 import s from 'components/users/style.module.scss';
 import { User } from 'components/users/user/User';
 import { useAppSelector } from 'hooks/useAppSelectorHook';
-import { getUsersTC, setCurrentPage } from 'store/reducer/user/user-reducer';
+import { setCurrentPage } from 'store/actionCreator/user/actionCreator';
+import { getUsersTC } from 'store/middlewares/user/getUserTC';
+import { selectIsInitialized } from 'store/selectors/app/selectorsApp';
+import { selectErrorMessage } from 'store/selectors/error/selectorsError';
 import {
   selectCount,
-  selectErrorMessage,
-  selectIsInitialized,
   selectPage,
   selectTotalPages,
   selectUsers,
-} from 'store/selectors/selectors';
+} from 'store/selectors/user/selectorsUser';
 import { useTypedDispatch } from 'store/store';
 
 const FIRST_PAGE_USER = 1;
@@ -42,7 +43,7 @@ export const Users = () => {
 
   return (
     <div className="container">
-      {errorMessage && <ModalError />}
+      {errorMessage && <ModalErrorMessage />}
 
       <h1 className="title">Working with GET request</h1>
       <div className={s.users__wrapper}>

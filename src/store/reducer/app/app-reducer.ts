@@ -1,3 +1,4 @@
+import { GlobalActionType } from 'store/actionCreator/app/types';
 import { initialStateType } from 'store/reducer/app/types';
 
 const initialState: initialStateType = {
@@ -5,7 +6,6 @@ const initialState: initialStateType = {
   errorMessage: null,
 };
 
-// reducer
 export const appReducer = (
   state: initialStateType = initialState,
   action: GlobalActionType,
@@ -19,13 +19,3 @@ export const appReducer = (
       return state;
   }
 };
-
-// action creator
-export const setInitialized = (value: boolean) =>
-  ({ type: 'APP/SET_INITIALIZED', value } as const);
-export const setErrorValue = (value: string | null) =>
-  ({ type: 'APP/SET_ERROR_VALUE', value } as const);
-
-export type GlobalActionType =
-  | ReturnType<typeof setInitialized>
-  | ReturnType<typeof setErrorValue>;

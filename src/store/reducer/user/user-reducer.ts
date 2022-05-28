@@ -1,10 +1,5 @@
-import { Dispatch } from 'redux';
-
-import { userApi } from 'api/user';
-import { setInitialized } from 'store/reducer/app/app-reducer';
-import { initialStateType, UserType } from 'store/reducer/user/types';
+import { initialStateType } from 'store/reducer/user/types';
 import { GlobalActionType } from 'types/globalTypeAction';
-import { processingErrorHandler } from 'utils/processingError';
 
 const initialState: initialStateType = {
   users: [],
@@ -22,7 +17,6 @@ const initialState: initialStateType = {
   isRedirectValue: false,
 };
 
-// reducer
 export const userReducer = (
   state: initialStateType = initialState,
   action: GlobalActionType,
@@ -41,29 +35,5 @@ export const userReducer = (
       return { ...state, params: { ...state.params, page: 1 } };
     default:
       return state;
-  }
-};
-
-// action creator
-export const setUsers = (user: UserType) =>
-  ({ type: 'USER/SET_USERS', payload: { user } } as const);
-export const setCurrentPage = (value: number) =>
-  ({ type: 'USER/SET_CURRENT_PAGE', value } as const);
-export const isRedirect = (value: boolean) =>
-  ({ type: 'APP/IS_SUCCESS', value } as const);
-export const resetPage = (value: number) => ({ type: 'APP/RESET_PAGE', value } as const);
-
-// thunk
-export const getUsersTC = (page: number, count: number) => async (dispatch: Dispatch) => {
-  try {
-    dispatch(setInitialized(true));
-    const response = await userApi.getUser(page, count);
-    dispatch(isRedirect(false));
-    dispatch(setUsers(response.data));
-  } catch (e) {
-    const { message }: any = e;
-    processingErrorHandler(message, dispatch);
-  } finally {
-    dispatch(setInitialized(false));
   }
 };

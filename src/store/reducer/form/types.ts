@@ -1,6 +1,6 @@
 export type InitialStateType = {
   positions: PositionType[];
-  success: boolean;
+  isSuccess: boolean;
   token: string;
 };
 
